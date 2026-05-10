@@ -102,13 +102,15 @@ Rules:
 
   const translated = JSON.parse(jsonMatch[1] ?? jsonMatch[0]) as Record<string, string>
 
-  // Track usage
-  await supabaseAdmin.from('usage_events').insert({
-    user_id: user.userId,
-    words: wordCount,
-    target_language: targetLanguage,
-    created_at: new Date().toISOString(),
-  }).throwOnError().catch(() => null)
+  // Track usage (best-effort)
+  try {
+    await supabaseAdmin.from('usage_events').insert({
+      user_id: user.userId,
+      words: wordCount,
+      target_language: targetLanguage,
+      created_at: new Date().toISOString(),
+    })
+  } catch { /* non-critical */ }
 
   return NextResponse.json({
     strings: translated,
