@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Languages, CreditCard, Settings, Plus, ArrowRight, Key, LogOut, TrendingUp } from "lucide-react";
+import { LayoutDashboard, Languages, CreditCard, Settings, Plus, ArrowRight, Key, LogOut, TrendingUp, Sparkles } from "lucide-react";
 import { getSessionUserId } from "@/lib/auth-session";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
@@ -10,6 +10,7 @@ const SIDEBAR_ITEMS = [
   { icon: TrendingUp, label: "Usage", href: "/dashboard/usage" },
   { icon: Key, label: "API Keys", href: "/dashboard/api-keys" },
   { icon: CreditCard, label: "Billing", href: "/dashboard/billing" },
+  { icon: Sparkles, label: "Setup Wizard", href: "/dashboard/wizard" },
   { icon: Settings, label: "Settings", href: "/dashboard#settings" },
 ];
 
