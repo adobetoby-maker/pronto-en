@@ -54,6 +54,12 @@ export function Nav() {
             Pricing
           </Link>
           <Link
+            href="/guide"
+            className="text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
+          >
+            Guide
+          </Link>
+          <Link
             href="/docs"
             className="text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
           >
@@ -110,6 +116,13 @@ export function Nav() {
             onClick={() => setOpen(false)}
           >
             Pricing
+          </Link>
+          <Link
+            href="/guide"
+            className="text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
+            onClick={() => setOpen(false)}
+          >
+            Guide
           </Link>
           <Link
             href="/docs"
