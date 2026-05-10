@@ -64,16 +64,16 @@ export function Nav() {
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/login"
+            href="/dashboard"
             className="text-sm text-zinc-400 hover:text-zinc-50 transition-colors px-3 py-1.5 rounded-md"
           >
-            Sign in
+            Dashboard
           </Link>
           <Link
-            href="/signup"
+            href="/dashboard/translate"
             className="text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded-md font-medium transition-colors"
           >
-            Get started free
+            Translate now
           </Link>
         </div>
 
@@ -120,18 +120,18 @@ export function Nav() {
           </Link>
           <div className="flex flex-col gap-2 pt-2 border-t border-zinc-800">
             <Link
-              href="/login"
+              href="/dashboard"
               className="text-sm text-zinc-400 hover:text-zinc-50 transition-colors py-1.5"
               onClick={() => setOpen(false)}
             >
-              Sign in
+              Dashboard
             </Link>
             <Link
-              href="/signup"
+              href="/dashboard/translate"
               className="text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md font-medium transition-colors text-center"
               onClick={() => setOpen(false)}
             >
-              Get started free
+              Translate now
             </Link>
           </div>
         </div>
