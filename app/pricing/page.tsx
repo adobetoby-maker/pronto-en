@@ -6,19 +6,16 @@ import { PricingCard } from "@/components/PricingCard";
 
 const COMPARE_ROWS = [
   { feature: "CLI tool (init, translate, ship)", flex: true, studio: true, agency: true },
-  { feature: "Git-native diffs", flex: true, studio: true, agency: true },
-  { feature: "All supported platforms (React, Next.js, Vue, Flutter, iOS, Android, Phoenix, go-i18n)", flex: true, studio: true, agency: true },
-  { feature: "WordPress, Webflow, Shopify, Squarespace, Framer, Wix", flex: true, studio: true, agency: true },
-  { feature: "Words included / month", flex: "Pay as you go", studio: "150K", agency: "500K" },
-  { feature: "Overage rate per 1K words", flex: "$0.79", studio: "$0.55", agency: "$0.40" },
-  { feature: "Team members", flex: false, studio: true, agency: true },
-  { feature: "Translation memory", flex: false, studio: true, agency: true },
-  { feature: "CI/CD integration", flex: false, studio: true, agency: true },
-  { feature: "Multi-project dashboard", flex: false, studio: false, agency: true },
-  { feature: "Role-based access (devs / translators / clients)", flex: false, studio: false, agency: true },
-  { feature: "Shared translation memory across projects", flex: false, studio: false, agency: true },
+  { feature: "Web translate (paste JSON, no install)", flex: true, studio: true, agency: true },
+  { feature: "Git-native diffs — only pay for changed strings", flex: true, studio: true, agency: true },
+  { feature: "All 14 platforms (React, Next.js, Vue, Flutter, iOS, Android, WordPress, Webflow, Shopify, Framer, Phoenix, go-i18n…)", flex: true, studio: true, agency: true },
+  { feature: "Words included / month", flex: "Pay as you go", studio: "100K", agency: "300K" },
+  { feature: "Overage rate per 1K words", flex: "$0.79", studio: "$0.69", agency: "$0.59" },
+  { feature: "API keys", flex: "1", studio: "5", agency: "Unlimited" },
+  { feature: "Translation memory", flex: false, studio: "coming soon", agency: "coming soon" },
+  { feature: "Team members", flex: false, studio: "coming soon", agency: "coming soon" },
+  { feature: "CI/CD GitHub Action", flex: false, studio: "coming soon", agency: "coming soon" },
   { feature: "Priority support", flex: false, studio: true, agency: true },
-  { feature: "SLA", flex: false, studio: false, agency: true },
 ];
 
 type CellValue = boolean | string;
@@ -68,14 +65,12 @@ export default function PricingPage() {
               price="$49"
               period="mo"
               description="For small teams shipping features fast."
-              wordsIncluded="150K words included / month"
-              overage="$0.55 / 1K words over"
+              wordsIncluded="100K words included / month"
+              overage="$0.69 / 1K words over"
               features={[
                 "Everything in Flex",
-                "150K words / month",
-                "Team members",
-                "Translation memory",
-                "CI/CD integration",
+                "100K words / month",
+                "5 API keys",
                 "Priority support",
               ]}
               highlighted
@@ -87,15 +82,13 @@ export default function PricingPage() {
               price="$149"
               period="mo"
               description="For agencies managing localization at scale."
-              wordsIncluded="500K words included / month"
-              overage="$0.40 / 1K words over"
+              wordsIncluded="300K words included / month"
+              overage="$0.59 / 1K words over"
               features={[
                 "Everything in Studio",
-                "500K words / month",
-                "Multi-project dashboard",
-                "Role-based access",
-                "Shared translation memory",
-                "Priority support + SLA",
+                "300K words / month",
+                "Unlimited API keys",
+                "Priority support",
               ]}
               ctaLabel="Talk to us"
               ctaHref="/signup?plan=agency"

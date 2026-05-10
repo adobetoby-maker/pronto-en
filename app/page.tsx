@@ -257,14 +257,12 @@ export default function HomePage() {
                 price="$49"
                 period="mo"
                 description="For small teams shipping features fast."
-                wordsIncluded="150K words included / month"
-                overage="$0.55 / 1K words over"
+                wordsIncluded="100K words included / month"
+                overage="$0.69 / 1K words over"
                 features={[
                   "Everything in Flex",
-                  "150K words / month",
-                  "Team members",
-                  "Translation memory",
-                  "CI/CD integration",
+                  "100K words / month",
+                  "5 API keys",
                   "Priority support",
                 ]}
                 highlighted
@@ -276,15 +274,13 @@ export default function HomePage() {
                 price="$149"
                 period="mo"
                 description="For agencies managing localization at scale."
-                wordsIncluded="500K words included / month"
-                overage="$0.40 / 1K words over"
+                wordsIncluded="300K words included / month"
+                overage="$0.59 / 1K words over"
                 features={[
                   "Everything in Studio",
-                  "500K words / month",
-                  "Multi-project dashboard",
-                  "Role-based access",
-                  "Shared translation memory",
-                  "Priority support + SLA",
+                  "300K words / month",
+                  "Unlimited API keys",
+                  "Priority support",
                 ]}
                 ctaLabel="Talk to us"
                 ctaHref="/signup?plan=agency"
