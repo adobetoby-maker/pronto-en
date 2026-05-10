@@ -1,16 +1,11 @@
-import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { supabaseAdmin } from '@/lib/supabase-server'
 
 export async function GET(req: NextRequest) {
   const apiKey = req.headers.get('authorization')?.replace('Bearer ', '').trim()
   if (!apiKey) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { data: keyRow } = await supabase
+  const { data: keyRow } = await supabaseAdmin
     .from('api_keys')
     .select('user_id')
     .eq('key_prefix', apiKey.slice(0, 12))
@@ -22,7 +17,7 @@ export async function GET(req: NextRequest) {
   startOfMonth.setDate(1)
   startOfMonth.setHours(0, 0, 0, 0)
 
-  const { data } = await supabase
+  const { data } = await supabaseAdmin
     .from('usage')
     .select('words, cost_usd')
     .eq('user_id', keyRow.user_id)

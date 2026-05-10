@@ -1,45 +1,44 @@
-import { createClient } from '@supabase/supabase-js'
+import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { supabaseAdmin } from '@/lib/supabase-server'
 
 export async function GET(req: NextRequest) {
-  const authHeader = req.headers.get('authorization')
-  const apiKey = authHeader?.replace('Bearer ', '').trim()
+  const apiKey = req.headers.get('authorization')?.replace('Bearer ', '').trim()
 
-  if (!apiKey || !apiKey.startsWith('pronto_')) {
+  if (!apiKey?.startsWith('pronto_')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Hash the key and look it up
-  const { data: keyRow } = await supabase
+  // Narrow candidates by prefix (cheap), then bcrypt-verify the full key
+  const prefix = apiKey.slice(0, 12)
+  const { data: candidates } = await supabaseAdmin
     .from('api_keys')
-    .select('user_id, name')
-    .eq('key_prefix', apiKey.slice(0, 12))
-    .single()
+    .select('id, user_id, key_hash')
+    .eq('key_prefix', prefix)
 
-  if (!keyRow) {
+  if (!candidates?.length) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 })
   }
 
-  // Update last_used_at
-  await supabase
+  let matched: (typeof candidates)[0] | null = null
+  for (const row of candidates) {
+    if (await bcrypt.compare(apiKey, row.key_hash)) { matched = row; break }
+  }
+
+  if (!matched) {
+    return NextResponse.json({ error: 'Invalid API key' }, { status: 401 })
+  }
+
+  await supabaseAdmin
     .from('api_keys')
     .update({ last_used_at: new Date().toISOString() })
-    .eq('user_id', keyRow.user_id)
-    .eq('key_prefix', apiKey.slice(0, 12))
+    .eq('id', matched.id)
 
-  const { data: profile } = await supabase
+  const { data: profile } = await supabaseAdmin
     .from('profiles')
     .select('email')
-    .eq('id', keyRow.user_id)
+    .eq('id', matched.user_id)
     .single()
 
-  return NextResponse.json({
-    userId: keyRow.user_id,
-    email: profile?.email ?? '',
-  })
+  return NextResponse.json({ userId: matched.user_id, email: profile?.email ?? '' })
 }

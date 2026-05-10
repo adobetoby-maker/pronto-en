@@ -1,13 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { supabaseAdmin } from '@/lib/supabase-server'
 
 async function resolveUserId(apiKey: string): Promise<string | null> {
-  const { data } = await supabase
+  const { data } = await supabaseAdmin
     .from('api_keys')
     .select('user_id')
     .eq('key_prefix', apiKey.slice(0, 12))
@@ -22,7 +17,7 @@ export async function GET(req: NextRequest) {
   const userId = await resolveUserId(apiKey)
   if (!userId) return NextResponse.json({ error: 'Invalid API key' }, { status: 401 })
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('projects')
     .select('*')
     .eq('user_id', userId)
@@ -46,7 +41,7 @@ export async function POST(req: NextRequest) {
     target_languages: string[]
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('projects')
     .insert({
       user_id: userId,

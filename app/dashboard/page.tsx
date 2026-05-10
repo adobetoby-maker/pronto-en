@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { LayoutDashboard, Languages, Users, CreditCard, Settings, Plus, ArrowRight } from "lucide-react";
+import { LayoutDashboard, Languages, Users, CreditCard, Settings, Plus, ArrowRight, Key } from "lucide-react";
 
 const SIDEBAR_ITEMS = [
   { icon: LayoutDashboard, label: "Projects", href: "/dashboard", active: true },
   { icon: Languages, label: "Translations", href: "/dashboard#translations" },
   { icon: Users, label: "Team", href: "/dashboard#team" },
-  { icon: CreditCard, label: "Billing", href: "/dashboard#billing" },
+  { icon: Key, label: "API Keys", href: "/dashboard/api-keys" },
+  { icon: CreditCard, label: "Billing", href: "/dashboard/billing" },
   { icon: Settings, label: "Settings", href: "/dashboard#settings" },
 ];
 
