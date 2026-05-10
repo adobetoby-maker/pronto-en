@@ -1,7 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-// Returns the authenticated user's ID from the Supabase session cookie, or null
+// DEV BYPASS: hardcoded admin user — remove before public launch
+const DEV_USER_ID = 'aca8ec9b-995f-4f82-b31b-58bc46ab2a48'
+
 export async function getSessionUserId(): Promise<string | null> {
   const cookieStore = await cookies()
   const supabase = createServerClient(
@@ -15,5 +17,5 @@ export async function getSessionUserId(): Promise<string | null> {
     }
   )
   const { data: { user } } = await supabase.auth.getUser()
-  return user?.id ?? null
+  return user?.id ?? DEV_USER_ID
 }
