@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Languages, CreditCard, Settings, Plus, ArrowRight, Key, LogOut } from "lucide-react";
+import { LayoutDashboard, Languages, CreditCard, Settings, Plus, ArrowRight, Key, LogOut, TrendingUp } from "lucide-react";
 import { getSessionUserId } from "@/lib/auth-session";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 const SIDEBAR_ITEMS = [
   { icon: LayoutDashboard, label: "Projects", href: "/dashboard", active: true },
-  { icon: Languages, label: "Translations", href: "/dashboard#translations" },
+  { icon: Languages, label: "Translate", href: "/dashboard/translate" },
+  { icon: TrendingUp, label: "Usage", href: "/dashboard/usage" },
   { icon: Key, label: "API Keys", href: "/dashboard/api-keys" },
   { icon: CreditCard, label: "Billing", href: "/dashboard/billing" },
   { icon: Settings, label: "Settings", href: "/dashboard#settings" },

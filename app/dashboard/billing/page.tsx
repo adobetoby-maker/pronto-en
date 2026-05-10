@@ -71,17 +71,23 @@ const PLANS = [
   },
 ];
 
+type SubData = { plan: string; status: string | null; words_included: number; current_period_end: string | null }
+
 function BillingContent() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState<string | null>(null);
-  const [hasSubscription, setHasSubscription] = useState(false);
+  const [sub, setSub] = useState<SubData | null>(null);
+
+  const hasSubscription = sub !== null && sub.plan !== 'flex' && sub.status === 'active';
 
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
 
   useEffect(() => {
-    // TODO: fetch subscription status from /api/usage/summary
-    // and set hasSubscription if plan !== 'flex'
+    fetch('/api/subscription')
+      .then(r => r.json())
+      .then(d => setSub(d as SubData))
+      .catch(() => {});
   }, []);
 
   async function checkout(plan: string) {
@@ -129,7 +135,12 @@ function BillingContent() {
       {hasSubscription && (
         <div className="mb-8 p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-zinc-200">Manage subscription</p>
+            <p className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+              Manage subscription
+              <span className="text-[10px] font-semibold uppercase tracking-wide bg-indigo-600/30 text-indigo-300 px-2 py-0.5 rounded-full">
+                {sub?.plan}
+              </span>
+            </p>
             <p className="text-xs text-zinc-500 mt-0.5">Update payment method, download invoices, or cancel.</p>
           </div>
           <button
@@ -146,6 +157,7 @@ function BillingContent() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {PLANS.map(plan => {
           const Icon = plan.icon;
+          const isCurrent = sub?.plan === plan.key && (sub?.status === 'active' || plan.key === 'flex');
           return (
             <div
               key={plan.key}
@@ -155,7 +167,12 @@ function BillingContent() {
                   : "border-zinc-800 bg-zinc-900/40"
               }`}
             >
-              {plan.highlight && (
+              {isCurrent && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-semibold bg-emerald-600 text-white px-3 py-0.5 rounded-full">
+                  Current plan
+                </span>
+              )}
+              {!isCurrent && plan.highlight && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-semibold bg-indigo-600 text-white px-3 py-0.5 rounded-full">
                   Most popular
                 </span>
@@ -184,15 +201,17 @@ function BillingContent() {
               </ul>
 
               <button
-                onClick={() => checkout(plan.key)}
-                disabled={!!loading}
+                onClick={() => !isCurrent && checkout(plan.key)}
+                disabled={!!loading || isCurrent}
                 className={`w-full py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-40 ${
-                  plan.highlight
+                  isCurrent
+                    ? "bg-zinc-800/50 text-zinc-500 cursor-default"
+                    : plan.highlight
                     ? "bg-indigo-600 hover:bg-indigo-500 text-white"
                     : "bg-zinc-800 hover:bg-zinc-700 text-zinc-200"
                 }`}
               >
-                {loading === plan.key ? "Redirecting…" : plan.cta}
+                {loading === plan.key ? "Redirecting…" : isCurrent ? "Current plan" : plan.cta}
               </button>
             </div>
           );
