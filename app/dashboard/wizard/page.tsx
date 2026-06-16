@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   LayoutDashboard, Languages, Key, CreditCard, TrendingUp, Settings,
   ArrowRight, ArrowLeft, Check, Download, Terminal, Sparkles, LogOut,
-  Globe, FileText, FileJson, Loader2, Github, FolderOpen, GitPullRequest,
+  Globe, FileText, FileJson, Loader2, GitBranch, FolderOpen, GitPullRequest,
   Lock, Unlock, RefreshCw,
 } from "lucide-react";
 
@@ -360,7 +360,7 @@ export default function WizardPage() {
         <div className="grid sm:grid-cols-2 gap-4">
           {[
             { id: "web" as Method,    icon: Globe,      color: "indigo",  title: "Website URL",   desc: "Give us your URL — we scan the page and pull out all the text automatically.", tag: "No files needed" },
-            { id: "github" as Method, icon: Github,     color: "zinc",    title: "GitHub repo",   desc: "Connect GitHub, pick a repo, and Pronto opens a PR with translated locale files.", tag: "Auto PR" },
+            { id: "github" as Method, icon: GitBranch,     color: "zinc",    title: "GitHub repo",   desc: "Connect GitHub, pick a repo, and Pronto opens a PR with translated locale files.", tag: "Auto PR" },
             { id: "local" as Method,  icon: FolderOpen, color: "violet",  title: "Local files",   desc: "Drag and drop JSON files from your computer. Download translations when done.", tag: "No account needed" },
             { id: "cli" as Method,    icon: Terminal,   color: "emerald", title: "CLI (developer)", desc: "Git-native, diff-aware. Only translates changed strings. Integrates with CI/CD.", tag: "Most powerful" },
           ].map(({ id, icon: Icon, color, title, desc, tag }) => (
@@ -415,7 +415,7 @@ export default function WizardPage() {
           <div className="space-y-4">
             <a href="/api/auth/github"
               className="inline-flex items-center gap-2 bg-zinc-100 hover:bg-white text-zinc-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">
-              <Github size={16} /> Connect with GitHub
+              <GitBranch size={16} /> Connect with GitHub
             </a>
             <p className="text-xs text-zinc-600">You'll be redirected to GitHub to authorize Pronto. We only request <code className="text-zinc-400">repo</code> scope.</p>
             <BackBtn onClick={() => setStep(0)} />
@@ -534,7 +534,7 @@ export default function WizardPage() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a href={prResult.pr_url} target="_blank" rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors">
-            <Github size={14} /> View pull request
+            <GitBranch size={14} /> View pull request
           </a>
           <button onClick={reset}
             className="border border-zinc-700 hover:border-zinc-500 text-zinc-300 text-sm font-medium px-5 py-2.5 rounded-lg transition-colors">
@@ -850,7 +850,7 @@ export default function WizardPage() {
     );
 
     if (method === "cli" && step === 2) {
-      const pLabel = CLI_PLATFORMS.find(p => p.id === platform)?.label ?? "your project";
+      const pLabel = CLI_PLATFORMS.find(p => p.id === _platform)?.label ?? "your project";
       return (
         <div className="max-w-xl">
           <h2 className="text-2xl font-bold text-zinc-50 mb-2">Set up the CLI</h2>

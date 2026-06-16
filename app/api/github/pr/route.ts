@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
     await supabaseAdmin.from('usage_events').insert({
       user_id: userId, words: wordCount, target_language: lang,
       created_at: new Date().toISOString(),
-    }).catch(() => {})
+    })
   }
 
   if (committed.length === 0) {
